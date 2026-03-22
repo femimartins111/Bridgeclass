@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BridgeClass — Tu Puente al Éxito</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;-webkit-font-smoothing:antialiased;}
+body{font-family:'DM Sans',sans-serif;background:#0D1810;color:#E4EDD8;overflow-x:hidden;}
+
+:root{
+  --bg:       #2b2a2a;
+  --bg2:      #2b2a2a;
+  --card:     #192118;
+  --card2:    #1F2A1E;
+  --border:   #283D27;
+  --green:    #52C278;
+  --green-d:  #2D7A49;
+  --green-dim:rgba(82,194,120,0.10);
+  --amber:    #E8B84A;
+  --amber-dim:rgba(232,184,74,0.11);
+  --blue:     #5AA8D8;
+  --blue-dim: rgba(90,168,216,0.11);
+  --red:      #E06858;
+  --red-dim:  rgba(224,104,88,0.10);
+  --canada:   #D42B2B;
+  --canada-dim:rgba(212,43,43,0.13);
+  --text:     #E4EDD8;
+  --text-2:   #7A9E7A;
+  --text-3:   #3A5A3A;
+  --fs-xs:    0.5625rem;
+  --fs-sm:    0.6875rem;
+  --fs-base:  0.8125rem;
+  --fs-md:    0.9375rem;
+  --fs-lg:    1.125rem;
+  --fs-xl:    1.5rem;
+}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:100vh;}
+.screen.active{display:block;}
+
+/* ════════════════════════════════════════
+   DIAGNOSTIC SCREEN
+════════════════════════════════════════ */
+#screen-diag{
+  background:radial-gradient(ellipse at 30% 20%,rgba(82,194,120,0.06) 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 80%,rgba(232,184,74,0.04) 0%,transparent 60%),
+             var(--bg);
+  align-items:center;justify-content:center;padding:2.5rem 1.5rem;
+}
+#screen-diag.active{display:flex;}
+.diag-shell{max-width:940px;width:100%;margin:0 auto;}
+
+.diag-grid{
+  display:grid;grid-template-columns:1fr;gap:2rem;margin-bottom:1.5rem;align-items:start;
+}
+@media(min-width:768px){
+  .diag-grid{grid-template-columns:1fr 1fr;}
+}
+
+.logo-row{display:flex;align-items:center;gap:0.55rem;margin-bottom:2.5rem;}
+.logo-mark{
+  width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(135deg,var(--green),var(--green-d));
+  display:flex;align-items:center;justify-content:center;font-size:0.875rem;
+}
+.logo-wordmark{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--text);}
+.logo-wordmark em{color:var(--green);font-style:normal;}
+
+.diag-eyebrow{
+  display:inline-flex;align-items:center;gap:0.35rem;
+  background:var(--green-dim);border:1px solid rgba(82,194,120,0.2);
+  color:var(--green);font-size:var(--fs-xs);font-weight:700;
+  text-transform:uppercase;letter-spacing:0.1em;
+  padding:0.22rem 0.7rem;border-radius:50px;margin-bottom:0.85rem;
+}
+.diag-headline{
+  font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;
+  color:var(--text);line-height:1.2;margin-bottom:0.65rem;
+}
+.diag-headline em{color:var(--green);font-style:italic;}
+.diag-lead{font-size:var(--fs-base);color:var(--text-2);line-height:1.7;margin-bottom:1.75rem;}
+
+/* prefilled profile card */
+.profile-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:1.25rem;margin-bottom:1.25rem;
+}
+.pcard-label{
+  font-size:var(--fs-xs);font-weight:700;color:var(--text-3);
+  text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.85rem;
+  display:flex;align-items:center;gap:0.4rem;
+}
+.pcard-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;}
+.pcard-field{background:var(--card2);border-radius:9px;padding:0.65rem 0.8rem;}
+.pcard-field.full{grid-column:1/-1;}
+.pfield-lbl{font-size:var(--fs-xs);color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-bottom:0.15rem;}
+.pfield-val{font-size:var(--fs-base);font-weight:600;color:var(--text);}
+.pfield-sub{font-size:var(--fs-xs);color:var(--text-2);margin-top:0.08rem;}
+
+/* diagnostic sections */
+.diag-section{margin-bottom:1.1rem;}
+.dsec-label{
+  font-size:var(--fs-xs);font-weight:700;color:var(--amber);
+  text-transform:uppercase;letter-spacing:0.09em;margin-bottom:0.6rem;
+}
+.dq{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:11px;padding:0.85rem 1rem;margin-bottom:0.45rem;
+}
+.dq-text{font-size:var(--fs-base);color:var(--text);line-height:1.5;margin-bottom:0.55rem;}
+.dq-opts{display:flex;gap:0.35rem;flex-wrap:wrap;}
+.dopt{
+  padding:0.25rem 0.65rem;border-radius:7px;
+  border:1.5px solid var(--border);background:var(--card2);
+  font-size:var(--fs-sm);font-weight:500;color:var(--text-2);
+  cursor:pointer;transition:all 0.13s;font-family:'DM Sans',sans-serif;
+}
+.dopt.sel{background:var(--green-dim);border-color:var(--green);color:var(--green);}
+.dopt:hover:not(.sel){border-color:var(--text-3);color:var(--text);}
+
+/* Knowledge Check Feedback */
+.dopt.correct{background:rgba(82,194,120,0.15);border-color:var(--green);color:var(--green);}
+.dopt.wrong{background:rgba(224,104,88,0.15);border-color:var(--red);color:var(--red);}
+.dq-feedback{
+  margin-top:0.85rem;padding:0.75rem 0.9rem;border-radius:9px;
+  font-size:var(--fs-sm);line-height:1.5;display:none;
+}
+.dq-feedback.show{display:block;animation:msgIn 0.2s ease;}
+.dq-feedback.correct{background:rgba(82,194,120,0.08);border:1px solid rgba(82,194,120,0.3);color:var(--text);}
+.dq-feedback.wrong{background:rgba(224,104,88,0.08);border:1px solid rgba(224,104,88,0.3);color:var(--text);}
+
+/* Upload Text Widget */
+.diag-ta{
+  width:100%;background:var(--card2);border:1.5px solid var(--border);
+  border-radius:9px;padding:0.65rem 0.8rem;margin-top:0.4rem;margin-bottom:0.6rem;
+  font-family:'DM Sans',sans-serif;font-size:var(--fs-sm);color:var(--text);
+  outline:none;resize:vertical;min-height:80px;line-height:1.5;transition:border-color 0.15s;
+}
+.diag-ta:focus{border-color:var(--green);}
+.diag-ta::placeholder{color:var(--text-3);}
+.diag-file{
+  width:100%;margin-top:0.4rem;font-family:'DM Sans',sans-serif;font-size:var(--fs-sm);color:var(--text-2);
+}
+.diag-file::file-selector-button{
+  background:var(--card2);border:1.5px solid var(--border);color:var(--text);
+  padding:0.3rem 0.6rem;border-radius:6px;cursor:pointer;margin-right:0.5rem;
+  font-family:'DM Sans',sans-serif;font-size:var(--fs-sm);transition:all 0.13s;
+}
+.diag-file::file-selector-button:hover{
+  background:var(--green-dim);border-color:var(--green);color:var(--green);
+}
+.upload-btn{
+  width:100%;background:var(--card2);color:var(--text-2);border:1.5px solid var(--border);
+  border-radius:7px;padding:0.45rem;font-family:'DM Sans',sans-serif;font-size:var(--fs-sm);
+  font-weight:600;cursor:pointer;transition:all 0.13s;
+}
+.upload-btn:hover{background:var(--green-dim);border-color:var(--green);color:var(--green);}
+
+/* result preview */
+.diag-result{
+  background:linear-gradient(135deg,rgba(82,194,120,0.07),rgba(232,184,74,0.05));
+  border:1px solid var(--border);border-radius:14px;
+  padding:1rem 1.1rem;margin-bottom:1.25rem;
+}
+.dr-title{font-size:var(--fs-sm);font-weight:700;color:var(--green);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.35rem;}
+.dr-bars{display:flex;flex-direction:column;gap:0.35rem;}
+.dr-row{display:flex;align-items:center;gap:0.55rem;}
+.dr-name{font-size:var(--fs-xs);color:var(--text-2);width:105px;flex-shrink:0;}
+.dr-bar{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.dr-fill{height:100%;border-radius:3px;}
+.dr-pct{font-size:var(--fs-xs);font-family:'DM Mono',monospace;color:var(--text-3);width:28px;text-align:right;}
+
+.start-btn{
+  width:100%;background:var(--green);color:#081008;
+  border:none;border-radius:11px;padding:0.85rem 1rem;
+  font-family:'DM Sans',sans-serif;font-size:var(--fs-md);font-weight:700;
+  cursor:pointer;transition:all 0.17s;
+  display:flex;align-items:center;justify-content:center;gap:0.5rem;
+}
+.start-btn:hover{background:#40B065;transform:translateY(-1px);box-shadow:0 10px 28px rgba(82,194,120,0.22);}
+
+/* ════════════════════════════════════════
+   APP SCREEN
+════════════════════════════════════════ */
+#screen-app{display:none;height:100vh;flex-direction:row;}
+#screen-app.active{display:flex;}
+
+/* SIDEBAR */
+.sidebar{
+  width:252px;min-width:252px;
+  background:var(--bg2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow-y:auto;padding:1rem 0.85rem;gap:0.85rem;
+}
+.sidebar::-webkit-scrollbar{width:2px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);}
+
+.sb-brand{display:flex;align-items:center;gap:0.45rem;padding:0.1rem 0.15rem;}
+.sb-mark{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--green),var(--green-d));display:flex;align-items:center;justify-content:center;font-size:0.7rem;}
+.sb-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);}
+.sb-name em{color:var(--green);font-style:normal;}
+
+.sb-user{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:0.75rem;}
+.sbu-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green-d),#1A4A28);
+  display:flex;align-items:center;justify-content:center;
+  font-size:var(--fs-xs);font-weight:700;color:white;margin-bottom:0.4rem;
+}
+.sbu-name{font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:600;color:var(--text);}
+.sbu-meta{font-size:var(--fs-xs);color:var(--text-3);margin-top:0.08rem;}
+.sbu-tags{display:flex;gap:0.25rem;margin-top:0.45rem;flex-wrap:wrap;}
+.sbu-tag{
+  font-size:0.5rem;font-weight:700;padding:0.12rem 0.4rem;
+  border-radius:50px;text-transform:uppercase;letter-spacing:0.05em;
+}
+.sbu-tag.origin{background:var(--canada-dim);color:#E06868;border:1px solid rgba(212,43,43,0.18);}
+.sbu-tag.dest{background:var(--green-dim);color:var(--green);border:1px solid rgba(82,194,120,0.18);}
+.sbu-tag.level{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(232,184,74,0.18);}
+
+.sb-divlabel{font-size:0.5rem;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.1em;}
+
+.sb-nav{display:flex;flex-direction:column;gap:0.15rem;}
+.sbn-item{
+  display:flex;align-items:center;gap:0.45rem;
+  padding:0.45rem 0.6rem;border-radius:8px;
+  font-size:var(--fs-sm);color:var(--text-2);font-weight:500;
+  cursor:pointer;transition:all 0.13s;
+}
+.sbn-item:hover{background:var(--card);color:var(--text);}
+.sbn-item.active{background:var(--green-dim);color:var(--green);font-weight:600;}
+.sbn-icon{font-size:0.8125rem;flex-shrink:0;}
+
+.sb-mastery{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:0.75rem;}
+.sbm-label{font-size:0.5rem;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;}
+.sbm-rows{display:flex;flex-direction:column;gap:0.32rem;}
+.sbm-row{display:flex;align-items:center;gap:0.45rem;}
+.sbm-subj{font-size:var(--fs-xs);color:var(--text-2);width:80px;flex-shrink:0;}
+.sbm-bar{flex:1;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.sbm-fill{height:100%;border-radius:2px;transition:width 1s ease;}
+.sbm-pct{font-size:0.5rem;font-family:'DM Mono',monospace;color:var(--text-3);width:24px;text-align:right;}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+
+/* TOPBAR */
+.topbar{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:0.55rem 1.25rem;display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.tb-tabs{display:flex;gap:0.15rem;}
+.tb-tab{
+  padding:0.3rem 0.8rem;border-radius:7px;
+  font-size:var(--fs-sm);font-weight:600;color:var(--text-3);
+  cursor:pointer;transition:all 0.13s;border:none;background:none;
+  font-family:'DM Sans',sans-serif;
+}
+.tb-tab:hover{color:var(--text);}
+.tb-tab.active{background:var(--card);color:var(--green);}
+.tb-right{display:flex;align-items:center;gap:0.6rem;}
+.tb-pill{
+  background:var(--amber-dim);border:1px solid rgba(232,184,74,0.2);
+  color:var(--amber);font-size:var(--fs-xs);font-weight:700;
+  text-transform:uppercase;letter-spacing:0.08em;
+  padding:0.2rem 0.55rem;border-radius:50px;
+}
+.tb-time{font-size:var(--fs-xs);color:var(--text-3);font-family:'DM Mono',monospace;}
+
+/* PANELS */
+.panels{flex:1;overflow:hidden;position:relative;}
+.panel{display:none;height:100%;overflow-y:auto;padding:1.35rem 1.4rem;}
+.panel::-webkit-scrollbar{width:3px;}
+.panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.panel.active{display:block;}
+
+/* shared headings */
+.panel-h{font-family:'Playfair Display',serif;font-size:var(--fs-xl);font-weight:700;color:var(--text);margin-bottom:0.2rem;}
+.panel-sub{font-size:var(--fs-base);color:var(--text-2);margin-bottom:1.25rem;}
+
+/* ── ROADMAP PANEL ── */
+.rm-legend{display:flex;gap:0.85rem;margin-bottom:1rem;flex-wrap:wrap;}
+.rml{display:flex;align-items:center;gap:0.3rem;font-size:var(--fs-xs);color:var(--text-3);}
+.rml-dot{width:7px;height:7px;border-radius:50%;}
+
+.unit{background:var(--card);border:1px solid var(--border);border-radius:13px;overflow:hidden;margin-bottom:0.6rem;}
+.unit-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.8rem 1rem;cursor:pointer;transition:background 0.13s;
+}
+.unit-hd:hover{background:var(--card2);}
+.uh-left{display:flex;align-items:center;gap:0.65rem;}
+.unit-num{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:var(--fs-xs);font-weight:700;
+}
+.unit-num.s-done{background:rgba(82,194,120,0.18);color:var(--green);}
+.unit-num.s-active{background:var(--green);color:#081008;}
+.unit-num.s-current{background:var(--amber);color:#1A1000;}
+.unit-num.s-locked{background:var(--card2);color:var(--text-3);}
+.unit-title{font-size:var(--fs-base);font-weight:600;color:var(--text);}
+.unit-meta{font-size:var(--fs-xs);color:var(--text-3);margin-top:0.08rem;}
+.uh-right{display:flex;align-items:center;gap:0.6rem;}
+.unit-pct{font-size:var(--fs-xs);font-family:'DM Mono',monospace;}
+.unit-bar{width:52px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.unit-bfill{height:100%;border-radius:2px;transition:width 0.7s;}
+.unit-chevron{font-size:var(--fs-xs);color:var(--text-3);}
+
+.unit-body{padding:0 1rem 0.85rem;display:none;}
+.unit-body.open{display:block;}
+.topic-list{display:flex;flex-direction:column;gap:0.28rem;margin-top:0.2rem;}
+.topic-row{
+  display:flex;align-items:center;gap:0.5rem;
+  padding:0.4rem 0.6rem;border-radius:7px;background:var(--card2);
+  font-size:var(--fs-sm);color:var(--text-2);
+}
+.topic-ico{font-size:var(--fs-sm);flex-shrink:0;}
+.topic-name{flex:1;line-height:1.4;}
+.topic-badge{
+  font-size:0.5rem;font-weight:700;padding:0.1rem 0.35rem;
+  border-radius:50px;text-transform:uppercase;letter-spacing:0.05em;
+  flex-shrink:0;
+}
+.topic-badge.done{background:rgba(82,194,120,0.13);color:var(--green);}
+.topic-badge.active{background:var(--amber-dim);color:var(--amber);}
+.topic-badge.next{background:var(--blue-dim);color:var(--blue);}
+.topic-badge.locked{background:var(--card);color:var(--text-3);}
+
+/* ── TODAY PANEL ── */
+.today-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;margin-bottom:1.1rem;}
+.tstat{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:0.75rem 0.85rem;}
+.tstat-val{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--green);}
+.tstat-lbl{font-size:var(--fs-xs);color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:0.2rem;}
+
+.session-card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:1rem 1.1rem;margin-bottom:1rem;}
+.sc-label{font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.35rem;}
+.sc-text{font-size:var(--fs-base);color:var(--text);line-height:1.75;}
+.sc-text strong{color:var(--amber);}
+
+.located-label{font-size:var(--fs-xs);font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.35rem;}
+.module-list{display:flex;flex-direction:column;gap:0.45rem;}
+.mod-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:12px;padding:0.8rem 0.9rem;
+  display:flex;align-items:flex-start;gap:0.65rem;
+  cursor:pointer;transition:all 0.13s;
+}
+.mod-card:hover{border-color:var(--green);transform:translateX(2px);}
+.mod-card.highlight{border-color:var(--amber);background:rgba(232,184,74,0.03);}
+.mod-icon{font-size:1.1rem;flex-shrink:0;margin-top:0.06rem;}
+.mod-body{flex:1;}
+.mod-title{font-size:var(--fs-base);font-weight:600;color:var(--text);margin-bottom:0.15rem;}
+.mod-desc{font-size:var(--fs-sm);color:var(--text-2);line-height:1.5;}
+.mod-tags{display:flex;gap:0.25rem;flex-wrap:wrap;margin-top:0.35rem;}
+.mod-tag{
+  font-size:0.5rem;font-weight:700;padding:0.1rem 0.35rem;
+  border-radius:50px;text-transform:uppercase;letter-spacing:0.05em;
+}
+.mod-tag.unit{background:var(--green-dim);color:var(--green);}
+.mod-tag.type{background:var(--blue-dim);color:var(--blue);}
+.mod-tag.today{background:var(--amber-dim);color:var(--amber);}
+.mod-arrow{color:var(--text-3);font-size:var(--fs-sm);flex-shrink:0;margin-top:0.15rem;}
+
+/* ── CHAT PANEL ── */
+.chat-shell{display:flex;flex-direction:column;height:100%;overflow:hidden;}
+.chat-ctx{
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:0.65rem 1rem;flex-shrink:0;
+  display:flex;align-items:flex-start;gap:0.55rem;
+}
+.chat-ctx-icon{font-size:0.9rem;flex-shrink:0;margin-top:0.08rem;}
+.chat-ctx-info{font-size:var(--fs-sm);color:var(--text-2);line-height:1.45;}
+.chat-ctx-info strong{color:var(--amber);}
+
+.chat-feed{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:0.65rem;}
+.chat-feed::-webkit-scrollbar{width:2px;}
+.chat-feed::-webkit-scrollbar-thumb{background:var(--border);}
+
+.msg{display:flex;gap:0.5rem;max-width:90%;animation:msgIn 0.22s ease;}
+.msg.user{align-self:flex-end;flex-direction:row-reverse;}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.msg-av{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:var(--fs-xs);font-weight:700;
+}
+.msg-av.bot{background:var(--green-d);color:white;}
+.msg-av.user{background:var(--card2);color:var(--text-2);}
+
+.msg-bub{
+  border-radius:13px;padding:0.6rem 0.85rem;
+  font-size:var(--fs-sm);line-height:1.65;
+}
+.msg.bot .msg-bub{background:var(--card);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:3px;}
+.msg.user .msg-bub{background:var(--green-d);color:white;border-bottom-right-radius:3px;}
+.msg-ts{font-size:0.5rem;color:var(--text-3);font-family:'DM Mono',monospace;margin-top:0.2rem;align-self:flex-end;}
+
+/* typing */
+.typing-wrap{display:flex;gap:0.5rem;max-width:90%;}
+.typing-bub{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:13px;border-bottom-left-radius:3px;
+  padding:0.6rem 0.85rem;display:flex;gap:4px;align-items:center;
+}
+.tdot{width:5px;height:5px;background:var(--text-3);border-radius:50%;animation:tdot 1.1s ease-in-out infinite;}
+.tdot:nth-child(2){animation-delay:0.17s;}
+.tdot:nth-child(3){animation-delay:0.34s;}
+@keyframes tdot{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+
+/* canada popup */
+.ca-popup{
+  position:fixed;bottom:120px;right:16px;
+  background:#120808;
+  border:1.5px solid rgba(212,43,43,0.3);
+  border-radius:13px;padding:0.95rem 1.05rem;
+  max-width:270px;z-index:900;
+  box-shadow:0 18px 50px rgba(0,0,0,0.55);
+  display:none;
+  animation:popIn 0.22s ease;
+}
+.ca-popup.show{display:block;}
+@keyframes popIn{from{opacity:0;transform:scale(0.9) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.cap-head{display:flex;align-items:center;gap:0.45rem;margin-bottom:0.5rem;}
+.cap-flag{font-size:0.95rem;}
+.cap-title{font-size:var(--fs-xs);font-weight:700;color:#E07070;text-transform:uppercase;letter-spacing:0.07em;}
+.cap-x{margin-left:auto;background:none;border:none;color:var(--text-3);cursor:pointer;font-size:var(--fs-base);padding:0;line-height:1;transition:color 0.12s;}
+.cap-x:hover{color:var(--text-2);}
+.cap-q{font-size:var(--fs-sm);color:#D8C0C0;line-height:1.6;margin-bottom:0.6rem;}
+.cap-btns{display:flex;gap:0.35rem;}
+.cap-btn{
+  flex:1;padding:0.3rem 0.45rem;border-radius:7px;
+  font-size:var(--fs-sm);font-weight:600;cursor:pointer;
+  font-family:'DM Sans',sans-serif;border:none;transition:all 0.13s;
+}
+.cap-btn.yes{background:var(--canada-dim);color:#E07070;}
+.cap-btn.yes:hover{background:rgba(212,43,43,0.25);}
+.cap-btn.no{background:var(--card2);color:var(--text-3);}
+.cap-btn.no:hover{background:var(--border);color:var(--text-2);}
+.cap-expand{
+  margin-top:0.6rem;padding-top:0.6rem;
+  border-top:1px solid rgba(212,43,43,0.18);
+  font-size:var(--fs-sm);color:#E8D0D0;line-height:1.65;
+  display:none;animation:popIn 0.18s ease;
+}
+.cap-expand.show{display:block;}
+
+/* chat input */
+.chat-footer{padding:0.75rem 1rem;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0;}
+.chat-row{display:flex;gap:0.45rem;align-items:flex-end;}
+.chat-ta{
+  flex:1;background:var(--card);border:1.5px solid var(--border);
+  border-radius:9px;padding:0.55rem 0.8rem;
+  font-family:'DM Sans',sans-serif;font-size:var(--fs-sm);color:var(--text);
+  outline:none;resize:none;min-height:38px;max-height:100px;
+  line-height:1.5;transition:border-color 0.15s;
+}
+.chat-ta:focus{border-color:var(--green);}
+.chat-ta::placeholder{color:var(--text-3);}
+.chat-send{
+  background:var(--green);color:#081008;border:none;
+  border-radius:9px;padding:0.55rem 0.95rem;
+  font-family:'DM Sans',sans-serif;font-size:var(--fs-sm);font-weight:700;
+  cursor:pointer;transition:all 0.14s;flex-shrink:0;
+  height:38px;
+}
+.chat-send:hover{background:#40B065;}
+.chat-send:disabled{opacity:0.35;cursor:not-allowed;}
+
+.hints-row{display:flex;gap:0.35rem;flex-wrap:wrap;margin-top:0.4rem;}
+.hint{
+  background:none;border:1px solid var(--border);border-radius:6px;
+  padding:0.15rem 0.45rem;font-size:var(--fs-xs);color:var(--text-3);
+  cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.12s;
+}
+.hint:hover{border-color:var(--green);color:var(--green);}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     SCREEN 1 — DIAGNOSTIC
+═══════════════════════════════════ -->
+<div class="screen active" id="screen-diag">
+  <div class="diag-shell">
+    <div class="logo-row">
+      <div class="logo-mark">🌱</div>
+      <div class="logo-wordmark">Bridge<em>Class</em></div>
+    </div>
+
+    <div class="diag-eyebrow">🎓 Diagnóstico Inicial · Day 1</div>
+    <div class="diag-headline">Let's find your<em> starting point.</em></div>
+    <div class="diag-lead">Answer a few questions so BridgeClass can build your personalised SEP humanities roadmap. This takes about 5 minutes.</div>
+
+    <div class="diag-grid">
+      <div class="diag-col">
+    <!-- pre-filled student profile -->
+    <div class="profile-card">
+      <div class="pcard-label">📋 Your Profile <span style="color:var(--green);margin-left:0.4rem;font-size:0.5rem;"></span></div>
+      <div class="pcard-grid">
+        <div class="pcard-field">
+          <div class="pfield-lbl">Name</div>
+          <div class="pfield-val">Marco Reyes</div>
+        </div>
+        <div class="pcard-field">
+          <div class="pfield-lbl">Current Grade</div>
+          <div class="pfield-val">11° Preparatoria</div>
+        </div>
+        <div class="pcard-field">
+          <div class="pfield-lbl">Educated in</div>
+          <div class="pfield-val">🇨🇦 Canada (Ontario)</div>
+          <div class="pfield-sub">Grades 6–11 · English curriculum</div>
+        </div>
+        <div class="pcard-field">
+          <div class="pfield-lbl">Returning to</div>
+          <div class="pfield-val">🇲🇽 Mexico — CDMX</div>
+          <div class="pfield-sub">SEP national curriculum</div>
+        </div>
+        <div class="pcard-field full">
+          <div class="pfield-lbl">Last Mexican grade completed</div>
+          <div class="pfield-val">5° Primaria — left at age 10, now 17. Gap: 6 years of SEP curriculum.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spanish proficiency questions -->
+    <div class="diag-section">
+      <div class="dsec-label">Spanish Academic Proficiency</div>
+      <div class="dq">
+        <div class="dq-text">How comfortable are you writing a formal paragraph in Spanish?</div>
+        <div class="dq-opts">
+          <div class="dopt">Not at all</div>
+          <div class="dopt sel">Basic — simple sentences only</div>
+          <div class="dopt">Intermediate</div>
+          <div class="dopt">Advanced</div>
+        </div>
+      </div>
+      <div class="dq">
+        <div class="dq-text">Can you read a Spanish history textbook passage?</div>
+        <div class="dq-opts">
+          <div class="dopt">No</div>
+          <div class="dopt sel">With difficulty</div>
+          <div class="dopt">Mostly yes</div>
+          <div class="dopt">Comfortably</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Text Widget -->
+    <div class="diag-section">
+      <div class="dsec-label">Syllabus / Notes Upload</div>
+      <div class="dq">
+        <div class="dq-text">Upload a file (.txt, .pdf) or paste a syllabus to further personalise your roadmap.</div>
+        <input type="file" id="fileInput" accept=".txt,.pdf" class="diag-file">
+        <textarea class="diag-ta" id="syllabusInput" placeholder="Or paste your text here..."></textarea>
+        <button class="upload-btn" id="uploadBtn" onclick="saveSyllabus()">Submit Text</button>
+      </div>
+    </div>
+      </div>
+
+      <div class="diag-col">
+
+    <!-- History knowledge check -->
+    <div class="diag-section">
+      <div class="dsec-label">Historia de México — Knowledge Check</div>
+      <div class="dq knowledge-check">
+        <div class="dq-text">Who led Mexico's independence movement beginning in 1810?</div>
+        <div class="dq-opts">
+          <div class="dopt" data-correct="true" data-explanation="Miguel Hidalgo, a Catholic priest, initiated the Mexican War of Independence with the Grito de Dolores.">Miguel Hidalgo</div>
+          <div class="dopt" data-correct="false" data-explanation="Benito Juárez was president later, during the Reform War and French intervention (1850s-60s).">Benito Juárez</div>
+          <div class="dopt" data-correct="false" data-explanation="Porfirio Díaz ruled much later, from 1876 to 1911.">Porfirio Díaz</div>
+          <div class="dopt" data-correct="false" data-explanation="No worries! It was Miguel Hidalgo who started the movement.">Not sure</div>
+        </div>
+        <div class="dq-feedback"></div>
+      </div>
+      <div class="dq knowledge-check">
+        <div class="dq-text">What was the Porfiriato?</div>
+        <div class="dq-opts">
+          <div class="dopt" data-correct="false" data-explanation="The Porfiriato was a political era, not an art form.">A type of indigenous art</div>
+          <div class="dopt" data-correct="false" data-explanation="The Reform Laws were earlier (1850s), led by Benito Juárez.">The Reform Laws period</div>
+          <div class="dopt" data-correct="true" data-explanation="Exactly! The Porfiriato was the period from 1876 to 1911 when Porfirio Díaz ruled Mexico.">The era of Porfirio Díaz's rule</div>
+          <div class="dopt" data-correct="false" data-explanation="That's okay! The Porfiriato refers to the period from 1876-1911 when Porfirio Díaz ruled Mexico as a dictator.">I don't know this topic</div>
+        </div>
+        <div class="dq-feedback"></div>
+      </div>
+    </div>
+
+    <!-- Diagnostic result preview -->
+    <div class="diag-result">
+      <div class="dr-title">📊 Estimated Starting Mastery</div>
+      <div class="dr-bars">
+        <div class="dr-row">
+          <div class="dr-name">Hist. de México</div>
+          <div class="dr-bar"><div class="dr-fill" style="width:18%;background:linear-gradient(90deg,#E06858,#E8A040)"></div></div>
+          <div class="dr-pct">18%</div>
+        </div>
+        <div class="dr-row">
+          <div class="dr-name">Hist. Universal</div>
+          <div class="dr-bar"><div class="dr-fill" style="width:37%;background:linear-gradient(90deg,#E8A040,var(--amber))"></div></div>
+          <div class="dr-pct">37%</div>
+        </div>
+        <div class="dr-row">
+          <div class="dr-name">Cívica y Ética</div>
+          <div class="dr-bar"><div class="dr-fill" style="width:22%;background:linear-gradient(90deg,#E06858,#E8A040)"></div></div>
+          <div class="dr-pct">22%</div>
+        </div>
+        <div class="dr-row">
+          <div class="dr-name">Español Acad.</div>
+          <div class="dr-bar"><div class="dr-fill" style="width:29%;background:linear-gradient(90deg,#E8A040,var(--amber))"></div></div>
+          <div class="dr-pct">29%</div>
+        </div>
+        <div class="dr-row">
+          <div class="dr-name">Geografía MX</div>
+          <div class="dr-bar"><div class="dr-fill" style="width:42%;background:linear-gradient(90deg,var(--amber),var(--green))"></div></div>
+          <div class="dr-pct">42%</div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+    <button class="start-btn" onclick="launchApp()">
+      View My Curriculum Roadmap &nbsp;→
+    </button>
+
+</div> <!-- /screen-diag -->
+
+<script>
+  // Add interactivity to diagnostic options
+  document.querySelectorAll('.dopt').forEach(option => {
+    option.addEventListener('click', function() {
+      const isSelected = this.classList.contains('sel') || this.classList.contains('correct') || this.classList.contains('wrong');
+      const questionDiv = this.closest('.dq');
+      const isKnowledgeCheck = questionDiv.classList.contains('knowledge-check');
+      
+      // Deselect all options in the current question
+      const parentOpts = this.closest('.dq-opts').querySelectorAll('.dopt');
+      parentOpts.forEach(opt => opt.classList.remove('sel', 'correct', 'wrong'));
+      
+      if (isKnowledgeCheck) {
+        const feedbackDiv = questionDiv.querySelector('.dq-feedback');
+        if (!isSelected) {
+          const isCorrect = this.getAttribute('data-correct') === 'true';
+          const explanation = this.getAttribute('data-explanation');
+          
+          this.classList.add(isCorrect ? 'correct' : 'wrong');
+          feedbackDiv.className = `dq-feedback show ${isCorrect ? 'correct' : 'wrong'}`;
+          feedbackDiv.innerHTML = `<strong>${isCorrect ? '✅ Correct' : '❌ Incorrect'}</strong> — ${explanation}`;
+        } else {
+          feedbackDiv.classList.remove('show');
+        }
+      } else {
+        if (!isSelected) {
+          this.classList.add('sel');
+        }
+      }
+    });
+  });
+
+  // Configure PDF.js worker
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  // Read uploaded text or PDF file
+  document.getElementById('fileInput').addEventListener('change', async function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const syllabusInput = document.getElementById('syllabusInput');
+    syllabusInput.placeholder = "Reading file, please wait...";
+    
+    if (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        let fullText = "";
+        
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const textContent = await page.getTextContent();
+          const pageText = textContent.items.map(item => item.str).join(" ");
+          fullText += pageText + "\n\n";
+        }
+        syllabusInput.value = fullText;
+      } catch (error) {
+        syllabusInput.value = "Error reading PDF: " + error.message;
+      }
+    } else {
+      // Fallback for .txt files
+      const reader = new FileReader();
+      reader.onload = function(ev) { syllabusInput.value = ev.target.result; };
+      reader.readAsText(file);
+    }
+    syllabusInput.placeholder = "Or paste your text here...";
+  });
+
+  function saveSyllabus() {
+    const text = document.getElementById('syllabusInput').value.trim();
+    if (text) {
+      localStorage.setItem('bridgeclass_syllabus', text);
+      const btn = document.getElementById('uploadBtn');
+      btn.innerText = '✅ Saved Successfully';
+      btn.style.borderColor = 'var(--green)';
+      btn.style.color = 'var(--green)';
+      setTimeout(() => { btn.innerText = 'Submit Text'; btn.style=''; }, 3000);
+    }
+  }
+
+  function launchApp() {
+    saveSyllabus(); // Save before leaving just in case they didn't click submit
+    window.location.href = 'app.html';
+  }
+</script>
+</body>
+</html>
