@@ -1,10 +1,10 @@
-# 🌱 BridgeClass 
+# BridgeClass 
 
 > **Bridging the educational gap for displaced students through AI-driven bilingual curriculum mapping and tutoring.**
 
 BridgeClass is a bilingual web application designed to act as a personalized curriculum guide for displaced students and immigrants. By automatically translating and structuring foreign-language educational materials into a personalized, interactive roadmap, BridgeClass helps students seamlessly assimilate into new school systems without falling behind due to language barriers.
 
-## ✨ Key Features
+## Key Features
 
 * ** Native Document Parsing:** Upload raw teacher notes, syllabi, or textbooks (PDF or TXT). BridgeClass uses client-side parsing to read the materials directly in the browser.
 * ** Dynamic Curriculum Generation:** Powered by the Gemini API, the app analyzes foreign-language documents, translates the content into English, and structures it into an interactive UI roadmap.
@@ -41,8 +41,9 @@ Because BridgeClass relies on client-side rendering and external APIs, it is inc
     * Open `bridgeclass (1).html` (the diagnostic/landing page) in any modern web browser to start the user flow.
     * Alternatively, you can open `app.html` directly to view the main dashboard.
 
+https://devpost.com/software/bridgeclass-4rzamq
 
-## 🤝 Contributors
+## Contributors
 
 * Olorufemi Martins
 * Jason Liu
